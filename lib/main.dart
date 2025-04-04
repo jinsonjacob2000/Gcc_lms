@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_lms/View/student/Registration_student.dart';
+import 'package:portfolio_lms/View/commons/splash_screen.dart';
 import 'package:portfolio_lms/Viewmodel/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       
-      home: const RegistrationStudent(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_lms/Servises/authentication/auth_servises.dart';
+import 'package:portfolio_lms/Utilities/tokenManager.dart';
+import 'package:portfolio_lms/View/student/Login_student.dart';
+import 'package:portfolio_lms/View/student/bottomNav.dart';
 
 class AuthProvider with ChangeNotifier {
   final AuthServices _authService = AuthServices();
@@ -8,6 +11,8 @@ class AuthProvider with ChangeNotifier {
 
   bool get isLoading => _isLoading;
   String? get message => _message;
+
+  String? _token;
 
   Future<void> register(
     String name,
@@ -34,24 +39,41 @@ class AuthProvider with ChangeNotifier {
     notifyListeners(); // Update UI
   }
 
-  Future<void> loginStudent(String email, String password) async {
+  Future<bool> loginStudent(String email, String password) async {
     _isLoading = true;
     _message = null;
     notifyListeners();
 
     final response = await _authService.loginStudent(email, password);
 
-    if (response["success"] == true) {
-      _message = "Login successful";
-      // Store the token or perform any other actions needed after successful login
-      // For example, you can save the token in shared preferences or a secure storage      
-      notifyListeners();
-    } else {
-      _message = response["message"];
-      notifyListeners();
-    }
+   if (response["success"] == true) {
+    _message = "Login successful";
 
+    print("---------========+++++++++++++========---------");
+    print(response["token"]);
+    await TokenManager.saveToken(response["token"]);
     _isLoading = false;
+    notifyListeners();
+    return true; // ✅ Let UI decide what to do next
+  } else {
+    _message = response["message"];
+    _isLoading = false;
+    notifyListeners();
+    return false;
+  }
+
+    
+  }
+
+  Future<void> Adminautologin(BuildContext context) async {
+    _token = await TokenManager.getToken();
+    if (_token != null) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Bottomnav()));
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => LoginStudent()));
+    }
     notifyListeners();
   }
 }

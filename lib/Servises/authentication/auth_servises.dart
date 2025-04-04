@@ -54,8 +54,8 @@ class AuthServices {
       );
 
       final responseData = jsonDecode(response.body); // Decode response body
-      print(responseData);
-      print(response.statusCode);
+      // print(responseData);
+      // print(response.statusCode);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return {
           "success": true,
@@ -65,7 +65,7 @@ class AuthServices {
       } else if (response.statusCode == 400 || response.statusCode == 409) {
         return {"success": false, "message": responseData["message"]};
       } else {
-        return {"success": false, "message": "Registration failed!"};
+        return {"success": false, "message": "Login Failed"};
       }
     } catch (error) {
       return {"success": false, "message": "Network error! Please try again."};

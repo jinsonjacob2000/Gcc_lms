@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_lms/Utilities/Constants.dart';
 import 'package:portfolio_lms/View/student/Registration_student.dart';
+import 'package:portfolio_lms/View/student/bottomNav.dart';
 import 'package:portfolio_lms/Viewmodel/auth_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -12,13 +13,38 @@ class LoginStudent extends StatefulWidget {
 }
 
 class _LoginStudentState extends State<LoginStudent> {
+
+  Future<void> _handleLogin() async {
+  if (_formKey.currentState!.validate()) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    
+    bool success = await authProvider.loginStudent(
+      emailController.text.trim(),
+      passwordController.text.trim(),
+    );
+
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(authProvider.message ?? "Login successful")),
+      );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => Bottomnav()),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(authProvider.message ?? "Login failed")),
+      );
+    }
+  }
+}
+
   final _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       body: Builder(
         builder: (context) {
@@ -120,28 +146,7 @@ class _LoginStudentState extends State<LoginStudent> {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.90,
                         child: ElevatedButton(
-                          onPressed: () async {
-                            if (_formKey.currentState!.validate()) {
-                              await authProvider.loginStudent(
-                                emailController.text,
-                                passwordController.text,
-                              );
-
-                              if (authProvider.message == "Login successful") {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(authProvider.message!),
-                                  ),
-                                );
-                              } else {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(authProvider.message!),
-                                  ),
-                                );
-                              }
-                            }
-                          },
+                          onPressed: _handleLogin,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryblue,
                             foregroundColor: Colors.white,
@@ -178,6 +183,6 @@ class _LoginStudentState extends State<LoginStudent> {
         },
       ),
     );
-    ;
+    
   }
 }
