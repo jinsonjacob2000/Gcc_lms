@@ -6,6 +6,10 @@ class AppColors {
   static const Color primarywhite = Color(0xFFF5F5F5);
   static const Color primaryblue = Color.fromARGB(255, 0, 0, 128);
   static const Color secondaryGrey = Colors.grey;
+  static const Color primarygrey = Color.fromARGB(255, 245, 237, 237);
+  static const Color appTheme = Color.fromARGB(134, 0, 0, 0);
+  static const Color primarygreen = Color.fromARGB(133, 22, 197, 36);
+   // Custom Secondary Color
 }
 
 class AppTextStyles {
@@ -27,6 +31,12 @@ class AppTextStyles {
     color: AppColors.primarywhite,
   );
 
+   static const TextStyle largewhite = TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primarywhite,
+  );
+
   static const TextStyle body = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,
@@ -35,7 +45,7 @@ class AppTextStyles {
 }
 
 class AppSpacing {
-  static const SizedBox hsmall = SizedBox(height: 8);
+  static const SizedBox hsmall = SizedBox(height: 6);
   static const SizedBox hmedium = SizedBox(height: 16);
   static const SizedBox hlarge = SizedBox(height: 24);
   static const SizedBox hextraLarge = SizedBox(height: 32);

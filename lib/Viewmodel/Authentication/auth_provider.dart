@@ -14,6 +14,8 @@ class AuthProvider with ChangeNotifier {
 
   String? _token;
 
+// Registration of Student
+
   Future<void> register(
     String name,
     String email,
@@ -38,6 +40,8 @@ class AuthProvider with ChangeNotifier {
     _isLoading = false;
     notifyListeners(); // Update UI
   }
+
+// Login of Student
 
   Future<bool> loginStudent(String email, String password) async {
     _isLoading = true;
@@ -65,6 +69,8 @@ class AuthProvider with ChangeNotifier {
     
   }
 
+  // Autologin of the student
+
   Future<void> Adminautologin(BuildContext context) async {
     _token = await TokenManager.getToken();
     if (_token != null) {
@@ -75,5 +81,13 @@ class AuthProvider with ChangeNotifier {
           context, MaterialPageRoute(builder: (context) => LoginStudent()));
     }
     notifyListeners();
+  }
+
+   Future<void> studentLogout(BuildContext context) async {
+   await TokenManager.clearToken();
+    notifyListeners();
+
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) =>LoginStudent() ));
   }
 }

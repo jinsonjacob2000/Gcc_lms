@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_lms/Utilities/Constants.dart';
-import 'package:portfolio_lms/Viewmodel/auth_provider.dart';
+import 'package:portfolio_lms/Viewmodel/Authentication/auth_provider.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
