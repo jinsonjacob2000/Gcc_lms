@@ -18,7 +18,7 @@ class _RegistrationStudentState extends State<RegistrationStudent> {
   TextEditingController rolecontroller = TextEditingController();
   TextEditingController tphone = TextEditingController();
 
-  void register() {}
+
 
   @override
   Widget build(BuildContext context) {

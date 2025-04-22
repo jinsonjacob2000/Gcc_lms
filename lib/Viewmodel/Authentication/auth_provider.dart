@@ -14,7 +14,7 @@ class AuthProvider with ChangeNotifier {
 
   String? _token;
 
-// Registration of Student
+  // Registration of Student
 
   Future<void> register(
     String name,
@@ -41,7 +41,7 @@ class AuthProvider with ChangeNotifier {
     notifyListeners(); // Update UI
   }
 
-// Login of Student
+  // Login of Student
 
   Future<bool> loginStudent(String email, String password) async {
     _isLoading = true;
@@ -50,23 +50,40 @@ class AuthProvider with ChangeNotifier {
 
     final response = await _authService.loginStudent(email, password);
 
-   if (response["success"] == true) {
-    _message = "Login successful";
+    print("++++++++++++++++++++++++++++");
+    print("Login API response: $response");
 
-    print("---------========+++++++++++++========---------");
-    print(response["token"]);
-    await TokenManager.saveToken(response["token"]);
-    _isLoading = false;
-    notifyListeners();
-    return true; // ✅ Let UI decide what to do next
-  } else {
-    _message = response["message"];
-    _isLoading = false;
-    notifyListeners();
-    return false;
-  }
+    try {
+      if (response["token"] != null && response["userData"] != null) {
+        _message = "Login successful";
 
-    
+        await TokenManager.saveToken(response["token"]);
+
+        final user = response["userData"];
+        final userId = user["userId"];
+
+        if (userId != null) {
+          await TokenManager.saveUserId(userId);
+        } else {
+          print("User ID is null!");
+        }
+
+        _isLoading = false;
+        notifyListeners();
+        return true;
+      } else {
+        _message = response["message"] ?? "Login failed";
+        _isLoading = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      _message = "Something went wrong";
+      print("Login error: $e");
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
   }
 
   // Autologin of the student
@@ -75,19 +92,25 @@ class AuthProvider with ChangeNotifier {
     _token = await TokenManager.getToken();
     if (_token != null) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Bottomnav()));
+        context,
+        MaterialPageRoute(builder: (context) => Bottomnav()),
+      );
     } else {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => LoginStudent()));
+        context,
+        MaterialPageRoute(builder: (context) => LoginStudent()),
+      );
     }
     notifyListeners();
   }
 
-   Future<void> studentLogout(BuildContext context) async {
-   await TokenManager.clearToken();
+  Future<void> studentLogout(BuildContext context) async {
+    await TokenManager.clearToken();
     notifyListeners();
 
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) =>LoginStudent() ));
+      context,
+      MaterialPageRoute(builder: (context) => LoginStudent()),
+    );
   }
 }

@@ -3,3 +3,9 @@ final String baseUrl = "https://api.portfoliobuilders.in/api";
 final String registrationUrl = "$baseUrl/registerUser";
 final String loginUrl = "$baseUrl/student/login";
 final String getcourseUrl = "$baseUrl/student/getStudentCourses";
+final String getModuleUrl = "$baseUrl/student/getModule/";
+final String getLessonUrl = "$baseUrl/student/getLesson/";
+final String getProfileUrl = "$baseUrl/getProfile/";
+final String updateProfileapi = "$baseUrl/updateProfile/";
+
+

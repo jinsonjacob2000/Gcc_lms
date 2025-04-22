@@ -9,6 +9,7 @@ class AppColors {
   static const Color primarygrey = Color.fromARGB(255, 245, 237, 237);
   static const Color appTheme = Color.fromARGB(134, 0, 0, 0);
   static const Color primarygreen = Color.fromARGB(133, 22, 197, 36);
+  static const Color primaryRed = Color.fromARGB(216, 240, 4, 4);
    // Custom Secondary Color
 }
 
