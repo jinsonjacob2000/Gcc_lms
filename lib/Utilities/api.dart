@@ -7,5 +7,10 @@ final String getModuleUrl = "$baseUrl/student/getModule/";
 final String getLessonUrl = "$baseUrl/student/getLesson/";
 final String getProfileUrl = "$baseUrl/getProfile/";
 final String updateProfileapi = "$baseUrl/updateProfile/";
+final String sendMedicalLeave = "$baseUrl/student/submitMedicalLeave/";
+final String getLeaveStatus = "$baseUrl/student/getStudentLeaveRequests/";
+final String getAttendanceHistory = "$baseUrl/student/getAttendanceHistory/";
+final String markAttendance = "$baseUrl/student/markAttendance/";
+
 
 

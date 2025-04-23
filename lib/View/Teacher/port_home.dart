@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:portfolio_lms/Utilities/Constants.dart';
-import 'package:portfolio_lms/View/student/profileStudent.dart';
+import 'package:portfolio_lms/View/student/profile/profileStudent.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class PortHome extends StatefulWidget {

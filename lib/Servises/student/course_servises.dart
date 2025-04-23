@@ -2,9 +2,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:portfolio_lms/Models/Student_model.dart';
-import 'package:portfolio_lms/Models/get_lesson.dart';
-import 'package:portfolio_lms/Models/get_module.dart';
+import 'package:portfolio_lms/Models/coursesModel/Student_model.dart';
+import 'package:portfolio_lms/Models/coursesModel/get_lesson.dart';
+import 'package:portfolio_lms/Models/coursesModel/get_module.dart';
 import 'package:portfolio_lms/Utilities/api.dart';
 
 class CourseServises {

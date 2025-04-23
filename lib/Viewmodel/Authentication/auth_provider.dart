@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_lms/Servises/authentication/auth_servises.dart';
 import 'package:portfolio_lms/Utilities/tokenManager.dart';
-import 'package:portfolio_lms/View/student/Login_student.dart';
+import 'package:portfolio_lms/View/student/authenticationScreen/Login_student.dart';
 import 'package:portfolio_lms/View/student/bottomNav.dart';
 
 class AuthProvider with ChangeNotifier {

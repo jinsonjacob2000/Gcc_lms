@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_lms/Models/Student_model.dart';
+import 'package:portfolio_lms/Models/coursesModel/Student_model.dart';
 import 'package:portfolio_lms/Utilities/Constants.dart';
 import 'package:portfolio_lms/View/student/courses/myCoursePage.dart';
 import 'package:portfolio_lms/Viewmodel/student_provider/studentCourse.dart';

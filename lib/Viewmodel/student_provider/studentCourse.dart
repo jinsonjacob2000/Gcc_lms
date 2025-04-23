@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_lms/Models/Student_model.dart';
-import 'package:portfolio_lms/Models/get_lesson.dart';
-import 'package:portfolio_lms/Models/get_module.dart';
+import 'package:portfolio_lms/Models/coursesModel/Student_model.dart';
+import 'package:portfolio_lms/Models/coursesModel/get_lesson.dart';
+import 'package:portfolio_lms/Models/coursesModel/get_module.dart';
 import 'package:portfolio_lms/Servises/student/course_servises.dart';
 import 'package:portfolio_lms/Utilities/tokenManager.dart';
 

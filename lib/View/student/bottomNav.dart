@@ -5,7 +5,7 @@ import 'package:portfolio_lms/Utilities/Constants.dart';
 import 'package:portfolio_lms/Utilities/tokenManager.dart';
 import 'package:portfolio_lms/View/student/Home_student.dart';
 import 'package:portfolio_lms/View/student/courses/my_courses.dart';
-import 'package:portfolio_lms/View/student/profileStudent.dart';
+import 'package:portfolio_lms/View/student/profile/profileStudent.dart';
 import 'package:portfolio_lms/View/student/support_student.dart';
 import 'package:portfolio_lms/Viewmodel/student_provider/studentCourse.dart';
 import 'package:portfolio_lms/Viewmodel/student_provider/student_profile.dart';

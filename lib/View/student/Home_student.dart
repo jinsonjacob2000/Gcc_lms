@@ -1,7 +1,7 @@
 // import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:portfolio_lms/Models/Student_model.dart';
+import 'package:portfolio_lms/Models/coursesModel/Student_model.dart';
 import 'package:portfolio_lms/Utilities/Constants.dart';
 
 class HomeStudent extends StatefulWidget {

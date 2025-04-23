@@ -37,3 +37,35 @@ class Profile {
         "registrationId": registrationId,
     };
 }
+
+class LeaveRequest {
+    int id;
+    DateTime leaveDate;
+    String reason;
+    String status;
+    DateTime createdAt;
+
+    LeaveRequest({
+        required this.id,
+        required this.leaveDate,
+        required this.reason,
+        required this.status,
+        required this.createdAt,
+    });
+
+    factory LeaveRequest.fromJson(Map<String, dynamic> json) => LeaveRequest(
+        id: json["id"],
+        leaveDate: DateTime.parse(json["leaveDate"]),
+        reason: json["reason"],
+        status: json["status"],
+        createdAt: DateTime.parse(json["createdAt"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "id": id,
+        "leaveDate": "${leaveDate.year.toString().padLeft(4, '0')}-${leaveDate.month.toString().padLeft(2, '0')}-${leaveDate.day.toString().padLeft(2, '0')}",
+        "reason": reason,
+        "status": status,
+        "createdAt": createdAt.toIso8601String(),
+    };
+}

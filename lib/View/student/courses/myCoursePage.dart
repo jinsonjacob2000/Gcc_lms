@@ -139,29 +139,33 @@ class _StudentcourseState extends State<Mycoursepage> {
                           ),
                           Spacer(),
                           IconButton(
-  onPressed: () async {
-    final lessonProvider =
-        Provider.of<CourseProvider>(context, listen: false);
+                            onPressed: () async {
+                              final lessonProvider =
+                                  Provider.of<CourseProvider>(
+                                    context,
+                                    listen: false,
+                                  );
 
-    // If expanding, fetch lessons
-    if (!isExpanded) {
-      // await lessonProvider.getLessonProvider(,module.moduleId);
-    }
+                              // If expanding, fetch lessons
+                              if (!isExpanded) {
+                                // await lessonProvider.getLessonProvider(,module.moduleId);
+                              }
 
-    // Toggle expansion
-    setState(() {
-      if (isExpanded) {
-        _expandedModules.remove(index);
-      } else {
-        _expandedModules.add(index);
-      }
-    });
-  },
-  icon: Icon(
-    isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
-  ),
-),
-
+                              // Toggle expansion
+                              setState(() {
+                                if (isExpanded) {
+                                  _expandedModules.remove(index);
+                                } else {
+                                  _expandedModules.add(index);
+                                }
+                              });
+                            },
+                            icon: Icon(
+                              isExpanded
+                                  ? Icons.arrow_drop_up
+                                  : Icons.arrow_drop_down,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -198,11 +202,17 @@ class _StudentcourseState extends State<Mycoursepage> {
                                   AppSpacing.hsmall,
                                   ElevatedButton.icon(
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.primarygreen
+                                      backgroundColor: AppColors.primarygreen,
                                     ),
                                     onPressed: () {},
-                                    icon: Icon(Icons.play_circle_outline_sharp,color: AppColors.primarywhite,),
-                                    label: Text("Watch Lesson",style: AppTextStyles.subwhite,),
+                                    icon: Icon(
+                                      Icons.play_circle_outline_sharp,
+                                      color: AppColors.primarywhite,
+                                    ),
+                                    label: Text(
+                                      "Watch Lesson",
+                                      style: AppTextStyles.subwhite,
+                                    ),
                                   ),
                                 ],
                               ),

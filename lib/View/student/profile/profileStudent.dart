@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio_lms/Models/get_profile.dart';
+import 'package:portfolio_lms/Models/profileModel/get_profile.dart';
 import 'package:portfolio_lms/Utilities/Constants.dart';
+import 'package:portfolio_lms/View/student/profile/dialogData.dart';
 import 'package:portfolio_lms/Viewmodel/Authentication/auth_provider.dart';
 import 'package:portfolio_lms/Viewmodel/student_provider/student_profile.dart';
 import 'package:provider/provider.dart';
@@ -111,7 +112,7 @@ class _ProfilestudentState extends State<Profilestudent> {
                           showDialog(
                             context: context,
                             builder: (BuildContext context) {
-                              return customDialog(
+                              return updatePersonalinfo(
                                 context,
                                 "Edit Personal Information",
                                 profile,
@@ -127,7 +128,18 @@ class _ProfilestudentState extends State<Profilestudent> {
                         enableFeedback: false,
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
-                        onTap: () {},
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return leaveDialogueBox(
+                                context,
+                                // profile,
+                                // profileProvider,
+                              );
+                            },
+                          );
+                        },
                         child: buttonContainer("Leave management"),
                       ),
                       AppSpacing.hsmall,
@@ -135,7 +147,18 @@ class _ProfilestudentState extends State<Profilestudent> {
                         enableFeedback: false,
                         splashColor: Colors.transparent,
                         highlightColor: Colors.transparent,
-                        onTap: () {},
+                        onTap: () {
+                            showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return attendanceBox(
+                                context,
+                                // profile,
+                                // profileProvider,
+                              );
+                            },
+                          );
+                        },
                         child: buttonContainer("View Attendance"),
                       ),
 
@@ -289,7 +312,7 @@ class _ProfilestudentState extends State<Profilestudent> {
     );
   }
 
-  Widget customDialog(
+  Widget updatePersonalinfo(
     BuildContext context,
     String title,
     Profile profile,
@@ -350,6 +373,127 @@ class _ProfilestudentState extends State<Profilestudent> {
               child: Text("Submit"),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget leaveDialogueBox(
+    BuildContext context,
+    // Profile profile,
+    // StudentProfile profileProvider,
+  ) {
+    return AlertDialog(
+      content: DefaultTabController(
+        length: 2,
+        child: Container(
+          width: double.maxFinite,
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Medical Leave",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: Icon(Icons.close, color: Colors.grey[600], size: 20),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              TabBar(
+                labelColor: Colors.green,
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: Colors.green,
+                tabs: [Tab(text: "Apply Leave"), Tab(text: "Leave History")],
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 300, // You can adjust height as needed
+                child: TabBarView(
+                  children: [
+                    Center(child: ApplyLeaveForm()),
+                    Center(child: LeaveHistoryScreen()),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+   Widget attendanceBox(
+    BuildContext context,
+  
+  ) {
+    return AlertDialog(
+      content: DefaultTabController(
+        length: 2,
+        child: Container(
+          width: double.maxFinite,
+          padding: EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade100,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Attendance",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green,
+                    ),
+                  ),
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    icon: Icon(Icons.close, color: Colors.grey[600], size: 20),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
+              TabBar(
+                labelColor: Colors.green,
+                unselectedLabelColor: Colors.grey,
+                indicatorColor: Colors.green,
+                tabs: [Tab(text: "View Attendance"), Tab(text: "Mark Attendance")],
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 300, // You can adjust height as needed
+                child: TabBarView(
+                  children: [
+                    Center(child: ViewAttendanceWidget()),
+                    Center(child: SendAttendanceWidget()),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
