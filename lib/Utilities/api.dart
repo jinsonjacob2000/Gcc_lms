@@ -11,6 +11,7 @@ final String sendMedicalLeave = "$baseUrl/student/submitMedicalLeave/";
 final String getLeaveStatus = "$baseUrl/student/getStudentLeaveRequests/";
 final String getAttendanceHistory = "$baseUrl/student/getAttendanceHistory/";
 final String markAttendance = "$baseUrl/student/markAttendance/";
+final String getLiveLink = "$baseUrl/student/getLiveLink/";
 
 
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:portfolio_lms/Models/coursesModel/get_lesson.dart';
 import 'package:portfolio_lms/Utilities/Constants.dart';
 import 'package:portfolio_lms/View/commons/common_widgets.dart';
 import 'package:portfolio_lms/Viewmodel/student_provider/studentCourse.dart';
@@ -6,7 +7,12 @@ import 'package:provider/provider.dart';
 
 class Mycoursepage extends StatefulWidget {
   final int courseId;
-  const Mycoursepage({super.key, required this.courseId});
+  final int batchId;
+  const Mycoursepage({
+    super.key,
+    required this.courseId,
+    required this.batchId,
+  });
 
   @override
   State<Mycoursepage> createState() => _StudentcourseState();
@@ -19,12 +25,13 @@ class _StudentcourseState extends State<Mycoursepage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
+    Future.microtask(()async {
       final courseProvider = Provider.of<CourseProvider>(
         context,
         listen: false,
       );
-      courseProvider.getModules(widget.courseId);
+     await courseProvider.getModules(widget.courseId);
+     await courseProvider.getLiveProvider(widget.courseId, widget.batchId);
     });
   }
 
@@ -44,7 +51,7 @@ class _StudentcourseState extends State<Mycoursepage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Live session
-              liveSession(),
+              liveSession(courseProvider),
 
               AppSpacing.hlarge,
 
@@ -57,8 +64,47 @@ class _StudentcourseState extends State<Mycoursepage> {
     );
   }
 
-  Widget liveSession() {
-    return Padding(
+  Widget liveSession(CourseProvider courseProvider) {
+    if (courseProvider.isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+   
+    return courseProvider.livelinks.isEmpty?noLink(): Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Live Sessions", style: AppTextStyles.heading),
+          AppSpacing.hsmall,
+          Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: AppColors.secondaryBlack, width: 2),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.live_tv_sharp,
+                    color: AppColors.primaryRed,
+                    size: 40,
+                  ),
+                  Spacer(),
+                  Text(
+                    "Link ondd fundeeeeeee",
+                    style: AppTextStyles.subHeading,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+Widget noLink(){
+  return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,9 +137,10 @@ class _StudentcourseState extends State<Mycoursepage> {
         ],
       ),
     );
-  }
-
+}
   Widget moduleSection(CourseProvider courseProvider) {
+    final lessonProvider = Provider.of<CourseProvider>(context, listen: false);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
@@ -140,12 +187,10 @@ class _StudentcourseState extends State<Mycoursepage> {
                           Spacer(),
                           IconButton(
                             onPressed: () async {
-                              final lessonProvider =
-                                  Provider.of<CourseProvider>(
-                                    context,
-                                    listen: false,
-                                  );
-
+                              lessonProvider.getLessonProvider(
+                                widget.courseId,
+                                module.moduleId,
+                              );
                               // If expanding, fetch lessons
                               if (!isExpanded) {
                                 // await lessonProvider.getLessonProvider(,module.moduleId);
@@ -179,46 +224,50 @@ class _StudentcourseState extends State<Mycoursepage> {
                           horizontal: 16.0,
                           vertical: 8,
                         ),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                        child:
+                            courseProvider.isLoading == true
+                                ? CircularProgressIndicator()
+                                : ListView.builder(
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
 
-                          itemCount: 5,
-                          itemBuilder: (context, index) {
-                            return Container(
-                              margin: EdgeInsets.symmetric(vertical: 8),
-                              width: double.infinity,
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                color: AppColors.primarygrey,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Column(
-                                children: [
-                                  Text(
-                                    "wekfkwldkfw",
-                                    style: AppTextStyles.body,
-                                  ),
-                                  AppSpacing.hsmall,
-                                  ElevatedButton.icon(
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.primarygreen,
-                                    ),
-                                    onPressed: () {},
-                                    icon: Icon(
-                                      Icons.play_circle_outline_sharp,
-                                      color: AppColors.primarywhite,
-                                    ),
-                                    label: Text(
-                                      "Watch Lesson",
-                                      style: AppTextStyles.subwhite,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
+                                  itemCount: courseProvider.lessons.length,
+                                  itemBuilder: (context, index) {
+                                    return Container(
+                                      margin: EdgeInsets.symmetric(vertical: 8),
+                                      width: double.infinity,
+                                      padding: EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primarygrey,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            courseProvider.lessons[index].title,
+                                            style: AppTextStyles.body,
+                                          ),
+                                          AppSpacing.hsmall,
+                                          ElevatedButton.icon(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  AppColors.primarygreen,
+                                            ),
+                                            onPressed: () {},
+                                            icon: Icon(
+                                              Icons.play_circle_outline_sharp,
+                                              color: AppColors.primarywhite,
+                                            ),
+                                            label: Text(
+                                              "Watch Lesson",
+                                              style: AppTextStyles.subwhite,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                       ),
                     // ),
                   ],

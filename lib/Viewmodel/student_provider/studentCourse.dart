@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_lms/Models/coursesModel/Student_model.dart';
+import 'package:portfolio_lms/Models/coursesModel/getLive.dart';
 import 'package:portfolio_lms/Models/coursesModel/get_lesson.dart';
 import 'package:portfolio_lms/Models/coursesModel/get_module.dart';
 import 'package:portfolio_lms/Servises/student/course_servises.dart';
@@ -11,27 +12,30 @@ class CourseProvider extends ChangeNotifier {
   final CourseServises _courseService = CourseServises();
   List<Course> _courses = [];
   List<Module> _modeules = [];
-   List<Lesson> _lessons = [];
+  List<Lesson> _lessons = [];
 
+  List<LiveSession> _livelinks = [];
+  List<LiveSession> get livelinks => _livelinks;
 
   bool _isLoading = false;
   String? _error;
 
   List<Course> get courses => _courses;
   List<Module> get modules => _modeules;
+  List<Lesson> get lessons => _lessons;
+
   bool get isLoading => _isLoading;
   String? get error => _error;
 
-// Load user for particular student
+  // Load user for particular student
 
   Future<void> loadCourses(String token) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
-    
+
     try {
       _courses = await _courseService.fetchCourses(token);
-     
     } catch (e) {
       _error = e.toString();
     }
@@ -43,7 +47,6 @@ class CourseProvider extends ChangeNotifier {
   // Get modules after tapping on particular course
 
   Future<void> getModules(int courseId) async {
-    
     String? token = await TokenManager.getToken();
     if (token == null) {
       print("no token available");
@@ -54,7 +57,6 @@ class CourseProvider extends ChangeNotifier {
     notifyListeners();
     try {
       _modeules = await _courseService.getModuleServises(token, courseId);
-     
     } catch (e) {
       _error = e.toString();
     }
@@ -63,9 +65,7 @@ class CourseProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-   Future<void> getLessonProvider(int courseId,int moduleId) async {
-    // print("---ccccccccccccccc------");
-    // print(courseId);
+  Future<void> getLessonProvider(int courseId, int moduleId) async {
     String? token = await TokenManager.getToken();
     if (token == null) {
       print("no token available");
@@ -74,12 +74,42 @@ class CourseProvider extends ChangeNotifier {
     _isLoading = true;
     _error = null;
     notifyListeners();
-    print('-----------------]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]');
     // print(token);
     try {
-      _lessons = await _courseService.getLessonsServises(token, courseId,moduleId);
-      // print("------------------------pppppppppppppp--------------");
-      // print(_courses);
+      _lessons = await _courseService.getLessonsServises(
+        token,
+        courseId,
+        moduleId,
+      );
+    } catch (e) {
+      _error = e.toString();
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> getLiveProvider(int courseId, int batchid) async {
+    String? token = await TokenManager.getToken();
+    if (token == null) {
+      print("no token available");
+
+      return;
+    }
+
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+    // print(token);
+    try {
+      _livelinks = await _courseService.getLiveServices(
+        token,
+        courseId,
+        batchid,
+      );
+
+      print("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
+      print("@@@@@@@@@@@@@@@@");
     } catch (e) {
       _error = e.toString();
     }

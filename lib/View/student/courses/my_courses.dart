@@ -68,7 +68,7 @@ class _AttendanceStudentstate extends State<MyCourses> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (ctx) {
-                                return Mycoursepage(courseId:course.courseId);
+                                return Mycoursepage(courseId:course.courseId,batchId: course.batchId,);
                               },
                             ),
                           );
