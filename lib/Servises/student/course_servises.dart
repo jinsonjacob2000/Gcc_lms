@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:portfolio_lms/Models/coursesModel/Student_model.dart';
 import 'package:portfolio_lms/Models/coursesModel/getLive.dart';
+import 'package:portfolio_lms/Models/coursesModel/get_assignment.dart';
 import 'package:portfolio_lms/Models/coursesModel/get_lesson.dart';
 import 'package:portfolio_lms/Models/coursesModel/get_module.dart';
 import 'package:portfolio_lms/Utilities/api.dart';
@@ -96,9 +97,9 @@ class CourseServises {
       },
     );
 
-    print("%%%%%%%%%%%%%%%");
-    print(response.body);
-    print(response.statusCode);
+    // print("%%%%%%%%%%%%%%%");
+    // print(response.body);
+    // print(response.statusCode);
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
 
@@ -115,4 +116,34 @@ class CourseServises {
       throw Exception("Failed to load live session");
     }
   }
+
+
+  Future<List<Assignment>> getAssignments(
+    String token,
+    int courseId,
+    int moduleId,
+  ) async {
+    final response = await http.get(
+      Uri.parse("$viewAssignments$courseId/$moduleId"),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+    // print("---------jjjjjjjjjjj_________");
+    // print(response.statusCode);
+    // print(response.body);
+    // print(token);
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      final List<dynamic> assignmentJson = data['assignments'];
+      // print("----------------ssssssssssssssss-------------");
+      // print(coursesJson);
+
+      return assignmentJson.map((json) => Assignment.fromJson(json)).toList();
+    } else {
+      throw Exception("Failed to load courses");
+    }
+  }
+
 }

@@ -14,7 +14,7 @@ class LiveSession {
       message: json['message'] ?? '',
       liveLink: json['liveLink'],
       liveStartTime: json['liveStartTime'] != null
-          ? DateTime.parse(json['liveStartTime'])
+          ? DateTime.tryParse(json['liveStartTime']) ?? DateTime.now() // safe parsing
           : null,
     );
   }

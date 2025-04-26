@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio_lms/Models/coursesModel/Student_model.dart';
 import 'package:portfolio_lms/Models/coursesModel/getLive.dart';
+import 'package:portfolio_lms/Models/coursesModel/get_assignment.dart';
 import 'package:portfolio_lms/Models/coursesModel/get_lesson.dart';
 import 'package:portfolio_lms/Models/coursesModel/get_module.dart';
 import 'package:portfolio_lms/Servises/student/course_servises.dart';
@@ -13,19 +14,19 @@ class CourseProvider extends ChangeNotifier {
   List<Course> _courses = [];
   List<Module> _modeules = [];
   List<Lesson> _lessons = [];
-
+  List<Assignment> _assignment = [];
   List<LiveSession> _livelinks = [];
-  List<LiveSession> get livelinks => _livelinks;
 
   bool _isLoading = false;
   String? _error;
+  bool get isLoading => _isLoading;
+  String? get error => _error;
 
+  List<LiveSession> get livelinks => _livelinks;
+  List<Assignment> get assignment => _assignment;
   List<Course> get courses => _courses;
   List<Module> get modules => _modeules;
   List<Lesson> get lessons => _lessons;
-
-  bool get isLoading => _isLoading;
-  String? get error => _error;
 
   // Load user for particular student
 
@@ -110,6 +111,30 @@ class CourseProvider extends ChangeNotifier {
 
       print("llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll");
       print("@@@@@@@@@@@@@@@@");
+    } catch (e) {
+      _error = e.toString();
+    }
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  Future<void> getAssignmentProvider(int courseId, int moduleId) async {
+    String? token = await TokenManager.getToken();
+    if (token == null) {
+      print("no token available");
+      return;
+    }
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+    // print(token);
+    try {
+      _assignment = await _courseService.getAssignments(
+        token,
+        courseId,
+        moduleId,
+      );
     } catch (e) {
       _error = e.toString();
     }
